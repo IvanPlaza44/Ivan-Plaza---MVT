@@ -1,7 +1,8 @@
 from contextvars import Context
 from django.shortcuts import HttpResponse
 from datetime import datetime
-from django.template import Context, Template
+from django.template import Context, Template, loader
+import random
 def hola(request):
     return HttpResponse("<h1>Buenas clase</h1>")
 
@@ -16,17 +17,19 @@ def calcular_fecha_nacimiento(request, edad):
     fecha = datetime.now().year - edad
     return HttpResponse(f"Tu fecha de nacimiento aprox para tus {edad} años es {fecha}")
 
-def mi_template(request):
-
-    cargar_archivo = open(r'C:\Users\Ivan Plaza\Desktop\Proyecto Ivan\Proyecto Django\templates\template.html', 'r')
-                             
-    template = Template(cargar_archivo.read())
-    
-    cargar_archivo.close()
-    
-    contexto = Context()
-       
-    template_renderizado = template.render(contexto)
-    
+def prueba_template(request):
+      
+    mi_contexto = {    
+        "rango" : list(range(1,11)),
+        'valor_aleatorio': random.randrange(1,11)
+        }  
+    template = loader.get_template("prueba_template.html")
+    template_renderizado = template.render(mi_contexto)
     return HttpResponse(template_renderizado)
 
+def crear_familiar(request):
+    return HttpResponse()
+
+    
+def ver_familiares(request):
+    return HttpResponse()
